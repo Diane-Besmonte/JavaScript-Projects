@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GoalGetter - Crushing Tasks Like a Boss</title>
+    <link rel="stylesheet" href="./assets/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <section id="headingContainer">
+        <div id="projectTitle">
+          <h1>GoalGetter</h1>
+          <span>Crushing Tasks Like a Boss</span>
+        </div>
+        <div>
+          <p id="day">Day</p>
+          <p id="date">Date</p>
+        </div>
+      </section>
+    </header>
+
+    <main id="contentArea">
+      <section id="setupTask">
+        <h2>Setup a New Task</h2>
+        <section id="settingUp">
+          <form id="category">
+            <label for="task">Task Category</label><br />
+            <select name="task" id="taskType">
+              <option value="morning routine">Morning Routine</option>
+              <option value="work tasks">Work Tasks</option>
+              <option value="personal errands">Personal Errands</option>
+              <option value="evening routine">Evening Routine</option>
+            </select>
+          </form>
+          <form id="taskInput">
+            <label for="inputBar">Task</label><br />
+            <input
+              type="text"
+              id="taskInputBar"
+              name="inputBar"
+              placeholder="Insert a task"
+            />
+          </form>
+          <button class="addTodoBtn" onclick="createTodo()">
+            + Add New Task
+          </button>
+        </section>
+      </section>
+    </main>
+
+    <section id="cards">
+      <div id="morning-routine" class="taskCard">
+        <h4>Morning Routine</h4>
+        <hr />
+        <!-- <label class="todo">
+          <input type="checkbox" checked="checked" />
+          <span class="checkmark">Meditate for 15 minutes</span>
+          <button class="closeBtn" onclick="removeTodo()">Remove</button>
+        </label> -->
+      </div>
+      <div id="work-tasks" class="taskCard">
+        <h4>Work Tasks</h4>
+        <hr />
+      </div>
+      <div id="personal-errands" class="taskCard">
+        <h4>Personal Errands</h4>
+        <hr />
+      </div>
+      <div id="evening-routine" class="taskCard">
+        <h4>Evening Routine</h4>
+        <hr />
+      </div>
+    </section>
+
+    <script src="index.js"></script>
+  </body>
+</html>

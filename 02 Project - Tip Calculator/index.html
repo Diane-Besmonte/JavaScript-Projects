@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02 Project - Tip Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./assets/style.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div>
+        <p id="total-per-person">Total Per Person</p>
+        <input id="person-bill" type="text" disabled value="0.00" />
+        <p>Total Bill</p>
+        <input id="total-bill" type="text" value="0" />
+      </div>
+
+      <div>
+        <p>Tip Selection</p>
+        <div class="select">
+          <button class="select-item" data-value="5">5%</button>
+          <button class="select-item" data-value="10">10%</button>
+          <button class="select-item" data-value="15">15%</button>
+          <button class="select-item" data-value="25">25%</button>
+          <button class="select-item" data-value="50">50%</button>
+          <input id="custom-tip" type="text" placeholder="Custom" value="" />
+        </div>
+      </div>
+
+      <div>
+        <p>Number of People</p>
+        <div id="number-of-people">
+          <button id="decrement">
+            <img src="./assets/minus.svg" alt="decrement" />
+          </button>
+          <input id="people-count" type="text" value="1" disabled />
+          <button id="increment">
+            <img src="./assets/plus.svg" alt="increment" />
+          </button>
+        </div>
+      </div>
+
+      <button id="calculate">Calculate</button>
+      <button id="reset">Reset</button>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
