@@ -30,7 +30,7 @@ buttons.forEach((button) => {
     const value = button.getAttribute("data-value");
     buttons.forEach((btn) => btn.classList.remove("select-item-active"));
     button.classList.add("select-item-active");
-    // console.log(value);
+    console.log(value);
     customTip.value = value;
   });
 });
@@ -38,12 +38,12 @@ buttons.forEach((button) => {
 // Calculate total bill per person
 calculateButton.addEventListener("click", function () {
   let tip = customTip.value === "" ? (customTip.value = 0) : customTip.value;
-  let totalBill = bill.value;
-  let personCount = peopleCount.value;
+  let totalBill = bill.value; // 100
+  let personCount = peopleCount.value; // 2
   let tipPercentage = tip / 100;
-  let totalTip = tipPercentage * totalBill;
-  let totalAmount = +totalBill + totalTip;
-  let totalAmoutPerPerson = totalAmount / personCount;
+  let totalTip = tipPercentage * totalBill; //10
+  let totalAmount = +totalBill + totalTip; // 110
+  let totalAmoutPerPerson = totalAmount / personCount; // 100 / 2
 
   console.log(totalAmount);
   console.log(totalAmoutPerPerson);
@@ -59,4 +59,5 @@ resetButton.addEventListener("click", function () {
   customTip.value = "";
   personCount = 1;
   personBill.value = 0.0;
+  buttons.forEach((btn) => btn.classList.remove("select-item-active"));
 });
