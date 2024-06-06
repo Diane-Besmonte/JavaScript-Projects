@@ -1,0 +1,99 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  /* background-color: #344c64; */
+  background: url("./background.png") no-repeat center fixed;
+  background-position: center;
+  background-size: cover;
+}
+
+main {
+  margin: 32px auto;
+  max-width: 60%;
+  height: 100%;
+  background-color: #1f3a5f;
+  border-radius: 15px;
+  text-align: center;
+  padding: 32px;
+}
+
+h2,
+h3,
+p {
+  font-family: "Blinker", sans-serif;
+  font-weight: 500;
+  font-size: 3em;
+  color: #cee8ff;
+  margin-bottom: 12px;
+}
+
+.rule {
+  font-size: 1.2em;
+  color: #fff;
+  font-weight: 300;
+}
+
+.score {
+  color: #fff;
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+  margin: 16px 0px;
+}
+
+p {
+  font-size: 2em;
+  margin: 16px 0px;
+}
+
+.game-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.game-container img {
+  width: 80%;
+}
+
+.player-container {
+  position: relative;
+}
+
+.round-choice {
+  position: absolute;
+  top: 53px;
+  left: 32%;
+  width: 100px !important;
+}
+
+/* Choices */
+.choice-btn {
+  border: none;
+  background-color: #4d648d;
+  border: 2px solid #4d648d;
+  border-radius: 100%;
+  padding: 20px;
+  cursor: pointer;
+  margin: 0px 12px;
+}
+
+.choice-btn:hover {
+  background-color: #514dff;
+  border: 2px solid #514dff;
+}
+
+.choice-btn-active {
+  background-color: #0f1c2e;
+  border: 2px solid #cee8ff;
+}
+
+.choices-img {
+  width: 56px;
+}

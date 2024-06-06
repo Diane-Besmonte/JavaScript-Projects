@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03 Project - Rock Paper Scissors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Blinker:wght@100;200;300;400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./assets/style.css" />
+  </head>
+  <body>
+    <main>
+      <p class="rule">One who can get the first score of 5 wins!</p>
+      <h2 id="round-winner">Choose One!</h2>
+
+      <div class="game-container">
+        <div class="player-container">
+          <h3>Player</h3>
+          <img id="player" src="./assets/left-paper.svg" alt="player choice" />
+          <p class="score">Score: <span class="player-total-score">0</span></p>
+        </div>
+        <div class="computer-container">
+          <h3>Computer</h3>
+          <img
+            id="computer"
+            src="./assets/right-scissors.svg"
+            alt="computer circle"
+          />
+          <p class="score">
+            Score: <span class="computer-total-score">0</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- <h3 class="game-winner"></h3> -->
+      <p class="countdown"></p>
+      <div class="choices">
+        <button class="choice-btn" data-value="rock">
+          <img
+            class="choices-img"
+            src="./assets/choice-rock.svg"
+            alt="rock choice"
+          />
+        </button>
+        <button class="choice-btn" data-value="paper">
+          <img
+            class="choices-img"
+            src="./assets/choice-paper.svg"
+            alt="paper choice"
+          />
+        </button>
+        <button class="choice-btn" data-value="scissors">
+          <img
+            class="choices-img"
+            src="./assets/choice-scissors.svg"
+            alt="scissor choice"
+          />
+        </button>
+      </div>
+    </main>
+
+    <script src="index.js"></script>
+  </body>
+</html>
