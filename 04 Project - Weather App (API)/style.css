@@ -1,0 +1,242 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Dark Mode */
+  --primary: #0f1c2e;
+  --secondary: #3d5a80;
+  --light-primary: #e5f3ff;
+  --font-light: #fafdff;
+  --font-dark: #0f1c2e;
+  --svg-light: #0f1c2e;
+  --svg-dark: #ffffff;
+  --light-tertiary: #d0dcf6;
+  --card-dark: #1f3a5f;
+  --heading: "Hind", sans-serif;
+  --paragraph: "Montserrat", sans-serif;
+}
+
+body {
+  background-color: var(--primary);
+  max-width: 1183px;
+  transition: background-color 0.3s, color 0.3s;
+  margin: 0px auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0px;
+}
+
+.right-heading {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+#greeting {
+  font-family: var(--heading);
+  font-weight: 500;
+  font-size: 3em;
+  margin: 12px 0px;
+  white-space: pre-wrap;
+}
+
+h3 {
+  font-size: 1em;
+  font-family: var(--paragraph);
+  font-weight: 400;
+}
+
+#date,
+#time {
+  font-size: 16px;
+  font-family: var(--paragraph);
+  font-weight: 500;
+}
+.container p {
+  font-size: 1.5em;
+  font-family: var(--paragraph);
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+.name {
+  font-size: 24px;
+  font-weight: 500;
+  font-family: var(--paragraph);
+}
+
+#main-temp {
+  font-size: 56px;
+  font-family: var(--heading);
+  font-weight: 500;
+}
+
+#stat {
+  font-size: 32px;
+  font-weight: 300;
+  font-family: var(--heading);
+}
+
+.dark-mode {
+  background-color: var(--primary);
+  color: var(--font-light);
+}
+
+.light-mode {
+  background-color: var(--light-primary);
+  color: var(--font-dark);
+}
+
+#theme-toggle {
+  cursor: pointer;
+  border: none;
+  font-size: 16px;
+  background: transparent;
+}
+
+#search {
+  text-align: center;
+}
+
+#search-btn,
+#track-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.light-mode #search-btn svg,
+.light-mode #track-btn svg {
+  stroke: var(--svg-light);
+}
+
+.light-mode .container .icon svg {
+  fill: var(--primary);
+}
+
+.dark-mode .container .icon svg {
+  fill: var(--light-primary);
+}
+
+.dark-mode #search-btn svg,
+.dark-mode #track-btn svg {
+  stroke: var(--svg-dark);
+}
+
+.dark-mode .search-bar {
+  border-radius: 50px;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  width: 100%;
+  max-width: 512px;
+  padding: 12px 24px;
+  gap: 12px;
+  margin: 0px auto;
+  text-align: center;
+  background-color: var(--secondary);
+}
+
+.light-mode .search-bar {
+  border-radius: 50px;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  width: 100%;
+  max-width: 512px;
+  padding: 12px 24px;
+  gap: 12px;
+  margin: 0px auto;
+  text-align: center;
+  background-color: var(--light-tertiary);
+}
+
+.dark-mode .search-bar input {
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  height: 32px;
+  color: var(--font-light);
+  font-size: 16px;
+}
+
+.light-mode .search-bar input {
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  height: 32px;
+  color: var(--font-dark);
+  font-size: 16px;
+}
+
+.dark-mode .search-bar input::placeholder {
+  color: var(--light-primary);
+  font-size: 16px;
+  opacity: 70%;
+}
+
+.light-mode .search-bar input::placeholder {
+  color: var(--primary);
+  font-size: 16px;
+  opacity: 70%;
+}
+
+.dark-mode .search-bar input:focus,
+.light-mode .search-bar input:focus {
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  max-height: 158px;
+  background-color: var(--card-dark);
+  border-radius: 8px;
+  padding: 40px 32px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.light-mode .container {
+  background-color: #cee8ff;
+}
+
+#today-temp {
+  background-color: var(--secondary);
+  text-align: center;
+  padding: 64px 32px;
+}
+
+.light-mode #today-temp {
+  background-color: #b8ddff;
+  text-align: center;
+  padding: 64px 32px;
+}
+
+.light-mode .sunrise,
+.light-mode .sunset {
+  background-color: #d0dcf6;
+}
+
+#first-col,
+#second-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
