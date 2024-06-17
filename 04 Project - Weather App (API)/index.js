@@ -68,7 +68,7 @@ const typing = () => {
 typing();
 
 // Weather API
-const API_KEY = "ee994f426a059b88b743eeded6e344d8";
+const API_KEY = "";
 
 getWeatherData = async (location) => {
   const URL = "https://api.openweathermap.org/data/2.5/weather";
@@ -83,26 +83,31 @@ getWeatherData = async (location) => {
   }
 };
 
-const searchLocation = () => {
-  const loc = document.getElementById("search-input").value;
-  console.log("clicked me!");
+const getWeather = (loc) => {
   getWeatherData(loc)
     .then((response) => {
       showWeatherData(response);
+      // console.log({ response });
     })
     .catch((error) => console.error("Something went wrong", error));
+};
+
+const searchLocation = () => {
+  const loc = document.getElementById("search-input").value;
+  getWeather(loc);
 };
 
 // So have other option to enter the location by hitting "enter" key aside from search button
 const userInput = document.getElementById("search-input");
 userInput.addEventListener("keydown", (event) => {
+  const loc = document.getElementById("search-input").value;
   if (event.key === "Enter") {
-    searchLocation();
+    getWeather(loc);
   }
 });
 
 const showWeatherData = (data) => {
-  console.log(data);
+  // console.log(data);
   const sunriseTs = new Date(data.sys.sunrise * 1000);
   const sunsetTs = new Date(data.sys.sunset * 1000);
 
@@ -130,4 +135,65 @@ const showWeatherData = (data) => {
     });
   document.querySelector("#pressure").innerText = `${data.main.pressure} hpa`;
   document.querySelector("#humidity").innerText = `${data.main.humidity}%`;
+};
+
+// To add - get the user's location as automatic input to search for weather data
+const getLocation = () => {
+  const locationDiv = document.getElementById("location-div");
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+  } else {
+    locationDiv.innerHTML = "Geolocation is not supported by this browser.";
+  }
+};
+
+const showPosition = (position) => {
+  const latitude = position.coords.latitude;
+  const longitude = position.coords.longitude;
+
+  // Display the latitude and longitude
+  // const locationDiv = document.getElementById("location-div");
+  // locationDiv.innerHTML = `Latitude: ${latitude} <br> Longitude: ${longitude}`;
+
+  // Call the function to get the city name
+  getCityName(latitude, longitude);
+};
+
+const showError = (error) => {
+  const locationDiv = document.getElementById("location-div");
+  switch (error.code) {
+    case error.PERMISSION_DENIED:
+      locationDiv.innerHTML = "User denied the request for Geolocation.";
+      break;
+    case error.POSITION_UNAVAILABLE:
+      locationDiv.innerHTML = "Location information is unavailable.";
+      break;
+    case error.TIMEOUT:
+      locationDiv.innerHTML = "The request to get user location timed out.";
+      break;
+    case error.UNKNOWN_ERROR:
+      locationDiv.innerHTML = "An unknown error occurred.";
+      break;
+  }
+};
+
+const getCityName = (latitude, longitude) => {
+  const locationDiv = document.getElementById("location-div");
+
+  // locationDiv.innerText = `${latitude} and ${longitude}`;
+
+  const GEO_API_KEY = "";
+  const URL = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${GEO_API_KEY}`;
+
+  fetch(URL)
+    .then((response) => response.json())
+    .then((data) => {
+      // console.log(data.results[0].components.city);
+      document.getElementById("search-input").value =
+        data.results[0].components.city;
+      let city = data.results[0].components.city;
+      getWeather(city);
+      // console.log(document.getElementById("search-input").value);
+    });
 };

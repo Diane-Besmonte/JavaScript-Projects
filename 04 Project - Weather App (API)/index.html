@@ -44,7 +44,7 @@
           placeholder="Search location.."
           name="search"
         />
-        <button id="track-btn">
+        <button id="track-btn" onclick="getLocation()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -83,6 +83,7 @@
         </button>
       </div>
     </section>
+    <div id="location-div"></div>
 
     <p id="today-heading">Today Overview</p>
     <main>
