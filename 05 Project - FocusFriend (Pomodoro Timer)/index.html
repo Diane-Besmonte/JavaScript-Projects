@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+
+    <title>05 Project - FocusFriend (Pomodoro Timer)</title>
+  </head>
+  <body>
+    <header>
+      <div></div>
+      <div id="logo">
+        <h2>F</h2>
+        <span><img src="./assets/Tomato Logo.svg" alt="tomato icon" /></span>
+        <h2>cusFriend</h2>
+      </div>
+      <div>
+        <p id="date">---, --- --, ----</p>
+        <p id="time">-- : -- --</p>
+      </div>
+    </header>
+
+    <main>
+      <section id="pomodoro-div">
+        <div id="timer-mode">
+          <label for="mode">Select a Pomodoro Timer Setup</label>
+          <select id="mode" name="mode">
+            <option value="25/5">25 work / 5 break</option>
+            <option value="50/10" selected>50 work / 10 break</option>
+            <option value="60/15">60 work / 15 break</option>
+          </select>
+        </div>
+
+        <div>
+          <div id="select-mode">
+            <button class="select-item" data-value="focus">Focus Mode</button>
+            <button class="select-item" data-value="short">Short Break</button>
+            <button class="select-item" data-value="long">Long Break</button>
+            <button class="select-item" data-value="meditate">Meditate</button>
+          </div>
+        </div>
+
+        <div id="timer-loader">
+          <div id="circle-container">
+            <svg width="350" height="350">
+              <circle cx="175" cy="175" r="160"></circle>
+              <circle cx="175" cy="175" r="160" id="progress-circle"></circle>
+            </svg>
+            <div class="timer-text" id="timer-text"></div>
+            <div id="current-mode"></div>
+          </div>
+        </div>
+
+        <div id="btns">
+          <button id="start">Start</button>
+          <button id="stop">Stop</button>
+        </div>
+
+        <audio id="alarm" controls loop hidden>
+          <source src="./assets/alarm.mp3" type="audio/mpeg" />
+        </audio>
+      </section>
+
+      <section id="todo-div"></section>
+    </main>
+
+    <script src="index.js"></script>
+  </body>
+</html>
