@@ -68,7 +68,30 @@
         </audio>
       </section>
 
-      <section id="todo-div"></section>
+      <section id="todo-div">
+        <div id="todo-heading">
+          <h3>Tasks</h3>
+          <p id="todo-count">
+            <span id="completed">0</span>/<span id="total-task">0</span>
+          </p>
+        </div>
+        <div id="tasks-container">
+          <div id="no-task">No Task Created</div>
+        </div>
+        <div id="add-task">
+          <button id="add-task-btn">+ Add Task</button>
+        </div>
+      </section>
+
+      <!-- MODAL -->
+      <div id="overlay"></div>
+      <div id="modal-container">
+        <textarea id="task-input"></textarea>
+        <div id="modal-btns">
+          <button id="add">Add Task</button>
+          <button id="cancel">Cancel</button>
+        </div>
+      </div>
     </main>
 
     <script src="index.js"></script>

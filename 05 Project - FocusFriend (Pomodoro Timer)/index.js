@@ -44,6 +44,7 @@ selectMode.addEventListener("change", function () {
     alarm.currentTime = 0;
     alarm.pause();
     timerText.textContent = "00:00";
+    // remainingTime = selectedTime;
   });
   const currentSet = selectMode.value;
   if (currentSet == "25/5") {
@@ -169,7 +170,147 @@ const formatTime = (seconds) => {
   return `${minutes < 10 ? "0" : ""}${minutes}:${secs < 10 ? "0" : ""}${secs}`;
 };
 
-// Todo:
+// ADD TO-DO FEATURE
+const taskButton = document.getElementById("add-task-btn");
+const taskContainer = document.getElementById("tasks-container");
+
+const saveTasksToLocalStorage = () => {
+  const tasks = [];
+  taskContainer.querySelectorAll(".task-card").forEach((taskCard) => {
+    const taskText = taskCard.querySelector(".task-text").textContent;
+    const isCompleted = taskCard
+      .querySelector("img")
+      .src.includes("check-done.svg");
+    tasks.push({ text: taskText, completed: isCompleted });
+  });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+};
+
+const loadTasksFromLocalStorage = () => {
+  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  taskContainer.innerHTML = "";
+  tasks.forEach((task) => {
+    taskContainer.innerHTML += `<div class="task-card">
+                <button class="done">
+                  <img src="./assets/${
+                    task.completed ? "check-done.svg" : "Check.svg"
+                  }" alt="check" />
+                </button>
+                <p class="task-text" style="text-decoration: ${
+                  task.completed ? "line-through" : "none"
+                };">${task.text}</p>
+                <button class="close">
+                  <img src="./assets/close.svg" alt="close" />
+                </button>
+              </div>`;
+  });
+  updateTaskCounts();
+};
+
+taskContainer.addEventListener("click", function (event) {
+  if (
+    event.target.classList.contains("close") ||
+    event.target.parentElement.classList.contains("close")
+  ) {
+    const taskCard = event.target.closest(".task-card");
+    if (taskCard) {
+      taskCard.remove();
+      updateTaskCounts();
+      saveTasksToLocalStorage();
+    }
+  } else if (
+    event.target.classList.contains("done") ||
+    event.target.parentElement.classList.contains("done")
+  ) {
+    const doneButton = event.target.closest(".done");
+    const taskCard = doneButton.closest(".task-card");
+    const doneImage = doneButton.querySelector("img");
+    const taskText = taskCard.querySelector(".task-text");
+
+    if (doneImage && taskText) {
+      if (doneImage.src.includes("Check.svg")) {
+        doneImage.src = "./assets/check-done.svg";
+        taskText.style.textDecoration = "line-through";
+      } else {
+        doneImage.src = "./assets/Check.svg";
+        taskText.style.textDecoration = "none";
+      }
+      updateTaskCounts();
+      saveTasksToLocalStorage();
+    }
+  }
+});
+
+// DISPLAY TOTAL NUMBER OF COMPLETED AND TASK
+const completed = document.getElementById("completed");
+const totalTask = document.getElementById("total-task");
+
+const updateTaskCounts = () => {
+  const totalTasks = taskContainer.querySelectorAll(".task-card").length;
+  const completedTasks = taskContainer.querySelectorAll(
+    '.task-card img[src="./assets/check-done.svg"]'
+  ).length;
+  completed.textContent = completedTasks;
+  totalTask.textContent = totalTasks;
+
+  // Show or hide no-task message
+  const noTask = document.getElementById("no-task");
+  if (totalTasks === 0) {
+    if (!noTask) {
+      taskContainer.innerHTML = '<p id="no-task">No tasks available</p>';
+    }
+  } else {
+    if (noTask) {
+      noTask.remove();
+    }
+  }
+};
+
+// Add Task Create Modal
+const overlay = document.getElementById("overlay");
+const modal = document.getElementById("modal-container");
+const addButton = document.getElementById("add");
+const cancelButton = document.getElementById("cancel");
+const taskInput = document.getElementById("task-input");
+
+const openModal = () => {
+  console.log("Modal Opened!");
+  overlay.style.display = "block";
+  modal.style.display = "block";
+};
+
+taskButton.addEventListener("click", openModal);
+
+cancelButton.addEventListener("click", function () {
+  overlay.style.display = "none";
+  modal.style.display = "none";
+});
+
+addButton.addEventListener("click", function () {
+  let newTask = taskInput.value;
+  overlay.style.display = "none";
+  modal.style.display = "none";
+  taskContainer.innerHTML += `<div class="task-card">
+              <button class="done">
+                <img src="./assets/Check.svg" alt="check" />
+              </button>
+              <p class="task-text">${newTask}</p>
+              <button class="close">
+                <img src="./assets/close.svg" alt="close" />
+              </button>
+            </div>`;
+  taskInput.value = "";
+  updateTaskCounts();
+  saveTasksToLocalStorage();
+});
+
+// Load tasks on page load
+loadTasksFromLocalStorage();
+
+// Initial update to set the correct state on load
+updateTaskCounts();
+
+// Next Steps:
 // Change the button text from "Resume" to "Start" if The set or the mode is changed
 // If the set is changed and no current mode is selected, alert choose mode first before starting. So that, the audio will not play
-// Create the Todo feature
+// Save to localstorage also regarding with the timer
