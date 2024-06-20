@@ -314,3 +314,13 @@ updateTaskCounts();
 // Change the button text from "Resume" to "Start" if The set or the mode is changed
 // If the set is changed and no current mode is selected, alert choose mode first before starting. So that, the audio will not play
 // Save to localstorage also regarding with the timer
+
+// PRELOADER
+const fadeOut = () => {
+  const loaderWrapper = document.querySelector(".wheel-and-hamster");
+  const loaderOverlay = document.getElementById("overlay-loader");
+  loaderOverlay.style.display = "none";
+  loaderWrapper.classList.add("fade");
+};
+
+window.addEventListener("load", fadeOut);
