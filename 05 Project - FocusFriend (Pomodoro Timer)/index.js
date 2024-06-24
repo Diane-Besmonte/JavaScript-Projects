@@ -29,21 +29,77 @@ const modeTimes = {
   focus: 50 * 60, // 50 minutes in seconds
   short: 10 * 60, // 10 minutes in seconds
   long: 60 * 60, // 15 minutes in seconds
-  meditate: 3 * 1, // 5 minutes in seconds
+  meditate: 10 * 60, // 5 minutes in seconds
 };
 
+let timerRunning = false;
 let selectedTime = 0;
 let remainingTime = 0;
+let startTime = 0;
 let countdownInterval;
-let timerRunning = false;
+let selectedMode = "";
+
+const radius = progressCircle.r.baseVal.value;
+const circumference = 2 * Math.PI * radius;
+
+progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+progressCircle.style.strokeDashoffset = circumference;
+
+function formatTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+}
+
+function setProgress(percent) {
+  const offset = circumference - (percent / 100) * circumference;
+  progressCircle.style.strokeDashoffset = offset;
+}
+
+function resetCircle() {
+  progressCircle.style.strokeDashoffset = circumference;
+}
+
+function updateCountdown() {
+  const now = Date.now();
+  const elapsed = Math.floor((now - startTime) / 1000);
+  remainingTime = selectedTime - elapsed;
+
+  if (remainingTime <= 0) {
+    timerText.textContent = "Done!";
+    // Updating the Tab Title with the Timer
+    document.title = `Session Finished! - FocusFriend (Pomodoro Timer)`;
+    setProgress(0);
+    clearInterval(countdownInterval);
+    startButton.textContent = "Start";
+    timerRunning = false;
+    selectMode.removeAttribute("disabled");
+    alarm.play();
+  } else {
+    timerText.textContent = formatTime(remainingTime);
+    setProgress((remainingTime / selectedTime) * 100);
+    // Updating the Tab Title with the Timer
+    document.title = `${timerText.textContent} - FocusFriend (Pomodoro Timer)`;
+  }
+}
+
+function startCountdown(time) {
+  startTime = Date.now() - (selectedTime - remainingTime) * 1000;
+  updateCountdown();
+  countdownInterval = setInterval(updateCountdown, 1000);
+}
 
 // MODIFY THE POMODORO SETUP TIMER DEPENDS ON THE CURRENT SET SELECTED
 selectMode.addEventListener("change", function () {
+  selectedMode = "";
+  // console.log(selectedMode);
   buttons.forEach((button) => {
     button.classList.remove("select-item-active");
     alarm.currentTime = 0;
     alarm.pause();
     timerText.textContent = "00:00";
+    currentMode.innerText = selectedMode;
+    resetCircle();
     // remainingTime = selectedTime;
   });
   const currentSet = selectMode.value;
@@ -72,13 +128,13 @@ buttons.forEach((button) => {
       alarm.pause();
     });
     button.classList.add("select-item-active");
-    // console.log(value);
+    startButton.textContent = "Start";
     selectedTime = modeTimes[value];
     remainingTime = selectedTime;
     timerText.textContent = formatTime(selectedTime);
     resetCircle();
 
-    currentMode.innerText =
+    selectedMode =
       value === "long"
         ? "Long Break"
         : value === "short"
@@ -86,28 +142,34 @@ buttons.forEach((button) => {
         : value === "meditate"
         ? "Meditate"
         : "Focus";
+
+    currentMode.innerText = selectedMode;
   });
 });
 
 // START TIMER BUTTON
 startButton.addEventListener("click", () => {
-  if (!timerRunning && selectedTime > 0) {
+  if (!timerRunning && selectedTime > 0 && selectedMode !== "") {
     startCountdown(remainingTime);
     startButton.textContent = "Pause";
     timerRunning = true;
     selectMode.setAttribute("disabled", true);
-  } else if (timerRunning && startButton.textContent === "Pause") {
+  } else if (
+    timerRunning &&
+    startButton.textContent === "Pause" &&
+    selectedMode !== ""
+  ) {
     clearInterval(countdownInterval);
     startButton.textContent = "Resume";
     timerRunning = false;
     selectMode.removeAttribute("disabled");
-  } else if (startButton.textContent === "Resume") {
+  } else if (startButton.textContent === "Resume" && selectedMode !== "") {
     startCountdown(remainingTime);
     startButton.textContent = "Pause";
     timerRunning = true;
-    selectMode.removeAttribute("disabled");
+    selectMode.setAttribute("disabled", true);
   } else {
-    alert("Please select a mode first.");
+    alert("Please select a timer mode first!");
     selectMode.removeAttribute("disabled");
   }
 });
@@ -125,52 +187,7 @@ stopButton.addEventListener("click", () => {
   alarm.pause();
 });
 
-// CIRCLE TIMER COUNTDOWN PROGRESS
-const startCountdown = (countdownValue) => {
-  clearInterval(countdownInterval);
-
-  let timeLeft = countdownValue;
-
-  const updateTimer = () => {
-    const totalLength = progressCircle.getTotalLength();
-    const timeFraction = timeLeft / selectedTime;
-    const offset = totalLength - timeFraction * totalLength;
-
-    progressCircle.style.strokeDashoffset = offset;
-    timerText.textContent = formatTime(timeLeft);
-
-    if (timeLeft > 0) {
-      timeLeft--;
-      remainingTime = timeLeft;
-    } else {
-      clearInterval(countdownInterval);
-      timerText.textContent = "Done!";
-      startButton.textContent = "Start";
-      timerRunning = false;
-      selectMode.removeAttribute("disabled");
-
-      if (timerText.textContent == "Done!") {
-        console.log("Change this!!");
-        alarm.play();
-      }
-    }
-  };
-
-  updateTimer();
-  countdownInterval = setInterval(updateTimer, 1000);
-};
-
-const resetCircle = () => {
-  progressCircle.style.strokeDashoffset = progressCircle.getTotalLength();
-};
-
-const formatTime = (seconds) => {
-  const minutes = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${minutes < 10 ? "0" : ""}${minutes}:${secs < 10 ? "0" : ""}${secs}`;
-};
-
-// ADD TO-DO FEATURE
+// ****** ADD TO-DO FEATURE
 const taskButton = document.getElementById("add-task-btn");
 const taskContainer = document.getElementById("tasks-container");
 
@@ -274,9 +291,10 @@ const cancelButton = document.getElementById("cancel");
 const taskInput = document.getElementById("task-input");
 
 const openModal = () => {
-  console.log("Modal Opened!");
+  // console.log("Modal Opened!");
   overlay.style.display = "block";
   modal.style.display = "block";
+  taskInput.focus();
 };
 
 taskButton.addEventListener("click", openModal);
@@ -310,12 +328,7 @@ loadTasksFromLocalStorage();
 // Initial update to set the correct state on load
 updateTaskCounts();
 
-// Next Steps:
-// Change the button text from "Resume" to "Start" if The set or the mode is changed
-// If the set is changed and no current mode is selected, alert choose mode first before starting. So that, the audio will not play
-// Save to localstorage also regarding with the timer
-
-// PRELOADER
+// ****** PRELOADER
 const fadeOut = () => {
   const loaderWrapper = document.querySelector(".wheel-and-hamster");
   const loaderOverlay = document.getElementById("overlay-loader");
@@ -324,3 +337,6 @@ const fadeOut = () => {
 };
 
 window.addEventListener("load", fadeOut);
+
+// Next Steps:
+// Save to localstorage also regarding with the timer
