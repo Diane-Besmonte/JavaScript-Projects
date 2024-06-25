@@ -185,6 +185,7 @@ stopButton.addEventListener("click", () => {
   selectMode.removeAttribute("disabled");
   alarm.currentTime = 0;
   alarm.pause();
+  document.title = `00:00 - FocusFriend (Pomodoro Timer)`;
 });
 
 // ****** ADD TO-DO FEATURE
